@@ -9,7 +9,7 @@ class BaseBagging():
         self.base_estimator = base_estimator
         self.n_estimator = n_estimator
         self._estimator = []
-        self.validation_sets = [] # this is a X - bootstrap(x) 36.8%
+        self.bootstrap_indices = [] # this is a X - bootstrap(x) 36.8%
 
     def fit(self, X, y):
         # create new list of estimator everytime this call 
@@ -21,16 +21,16 @@ class BaseBagging():
             # get the indices using random.choice 
             indices = np.random.choice(n_samples, size=n_samples, replace=True)
             # store the indices of every subsets for later use
-            self.validation_sets.append(indices)
+            self.bootstrap_indices.append(indices)
 
             # train base estimator
             estimator = clone(self.base_estimator) 
-            estimator = self.base_estimator.fit(X[indices], y[indices])
+            estimator.fit(X[indices], y[indices])
 
             # add the estimator 
             self._estimator.append(estimator)
             
-
+        return self
         
 
 
@@ -38,16 +38,18 @@ class BaseBagging():
 # bagging classification 
 class BaggingClassifier(BaseBagging):
     def predict(self, X):
-        predictions = [] 
+        predictions = []
         
         # predict X with every base estimator
         for estimator in self._estimator:
             predictions.append(estimator.predict(X)) 
 
+        # convert list to np array 
+        predictions = np.array(predictions)
         # Majority vote 
-        majority_vote = mode(predictions, axis=0)[0] # using mode for classifier
+        majority_vote = mode(predictions, axis=0, keepdims=True)[0] # using mode for classifier
 
-        return majority_vote
+        return majority_vote.ravel()
          
          
 # implementation of bagging
@@ -61,8 +63,10 @@ class BaggingRegressor(BaseBagging):
             predictions.append(estimator.predict(X)) 
 
         # Majority vote 
-        majority_vote = np.mean(predictions, axis=0) # using mean for regressor 
+        average = np.mean(predictions, axis=0) # using mean for regressor 
 
-        return majority_vote
+        return average
  
+
+
 
