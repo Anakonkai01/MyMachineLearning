@@ -6,7 +6,6 @@ from .tree import MyDecisionTreeRegressor, MyDecisionTreeClassifier
 from .linear_model import MyLogisticRegression 
 
 # 1. BAGGING (Parallel)
-
 class BaseBagging(BaseModel):
     def __init__(self, base_estimator, n_estimators=10):
         self.base_estimator = base_estimator
