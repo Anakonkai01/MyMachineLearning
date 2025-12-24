@@ -1,0 +1,17 @@
+explain why using HE initialization 
+why not init W = 0
+why using ReLU not sigmoid (compare ...)
+    - diem yeu cua sigmoid voi gia tri qua lon hoac qua nho (ve hinh ra, [duong sigmoid nhung diem du lieu nam o duong tiem can, gan nhu nam ngang, dao ham ~ 0])
+        - khi thuc hien backpro qua nhieu lop, cac con so x truyen vo sigmoi se cang ngay cang nho khien cho dao ham ~ 0
+        - nhuoc diem DEAD RELU
+    - diem manh relu, tinh toan sieu nhanh, vi la if else nhanh hon rat nhieu so voi phai e^x
+    - Piecewise linear function, Universal Approximation Theorem
+    - visualize the animation of learning process of this network with sin function
+why output layer does not has activation function 
+why mini-batches(compare with full), bo sung hinh anh cho mini batches
+
+
+---------------------------------------
+- 
+
+remember to explain the code in REPORT·
